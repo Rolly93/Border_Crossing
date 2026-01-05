@@ -1,0 +1,89 @@
+{% macro render_new_shipment_form() %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/newshipmet.css') }}">
+
+<div class="newshipment shipmentform form" id="newshipmet">
+<form method="POST" class="newshipment_content" action="{{ url_for('shipment_bp.new_shipment') }}">        <div class="general_info_section">
+            <h2>New Shipment</h2>
+            
+
+            <div class="form_field">
+                <label>Tipo de operacion</label>
+                <select name="tipo_operacion" id="tipo_operacion">
+                    <option value="exportacion">Exportacion</option>
+                    <option value="Importacion">Importacion</option>
+                    <option value="Movimiento Local">Movimiento Local</option>
+                </select>
+            </div>
+            
+            <div class="form_field">
+                <label>Operador</label>
+                <input type="text" name="operador" placeholder="Operador">
+            </div>
+
+            <div class="form_field">
+                <label>Unit truck</label>
+                <input type="text" name="unidad" placeholder="Unit Truck">
+            </div>
+            <div class="form_field">
+                <label>Tipo de Unidad</label>
+                <input type="text" name="tipo_unidad" placeholder="Tipo De Unidad">
+            </div>
+
+            <div class="form_field">
+
+            <label>Cliente</label>
+                <input type="text" name="cliente" placeholder="Cliente">
+            </div>   
+
+            <div class="form_field">
+                <label>Referencia de Cliente</label>
+                <input type="text" name="cliente_ref" placeholder="Referencia Cliente">
+            </div>
+            
+            <div class="form_field">
+                <label>Trailer</label>
+                <input type="text" name="trailer" placeholder="Trailer">
+            </div>
+
+            <div class="form_field">
+                <label>Placas</label>
+                <input type="text" name="placas" placeholder="Placas">
+            </div>
+
+
+            <div class="form_field">
+                <label>Sello</label>
+                <input type="text" name="sello_Ori" placeholder="Sello">
+            </div>
+
+            <div class="form_field">
+                <label>Recolecta</label>
+                <input type="text" placeholder="Regcolecta" name="origen">
+            </div>
+
+
+            <div class="form_field">
+                <label>Entrega</label>
+                <input type="text" placeholder="entrega" name="destino">
+            </div>
+        </div>
+
+        <div class="form_actions">
+            <button type="submit" class="btn-save">Save Shipment</button>
+            <button type="button" class="btn-cancel">Cancel</button>
+        </div>
+    </form>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+     <div class="alert alert-{{ category }}" style=" width : 300px; padding: 10px; margin: 10px; border-radius: 5px; background-color: {% if category == 'danger' %}#f8d7da{% else %}#d4edda{% endif %};">
+        {{ message }}
+        <span style="float:right; cursor:pointer;" onclick="this.parentElement.remove()">×</span>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endmacro %}

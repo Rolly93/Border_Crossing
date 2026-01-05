@@ -1,0 +1,148 @@
+/* 1. Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 12px;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+/* 2. Layout Grid */
+.container {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Sidebar width and remaining space */
+    grid-template-rows: auto 1fr auto; /* Header, Content, Footer */
+    min-height: 100vh;
+}
+
+/* 3. Header Styling */
+header {
+    grid-column: 2; /* Header stays on the right of the sidebar */
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+header h2 {
+    text-align: center;
+    color: #0f172a;
+    margin-bottom: 30px;
+}
+
+.header-section {
+    display: flex;
+    gap: 12px;
+}
+
+/* Inputs & Buttons */
+input[type="text"], select {
+    padding: 8px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline-color: #3b82f6;
+}
+
+button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+/* 4. Sidebar Styling */
+nav {
+    grid-row: 1 / 4; /* Sidebar spans from top to bottom */
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 30px 20px;
+    max-width: 200px;
+    width: 0;
+    transition: ease-in-out .6s;
+    overflow: hidden;
+    white-space: nowrap;
+}
+nav:hover{
+    width: 200px;
+}
+nav ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+nav li {
+    padding: 12px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+nav li:hover {
+    background-color: #334155;
+    color: #3b82f6;
+}
+
+/* 5. Main Content & Table */
+main {
+    padding: 30px;
+    overflow-x: scroll ;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden; /* Rounds the table corners */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+
+}
+
+th {
+    background-color: #f1f5f9;
+    color: #64748b;
+    text-align: center;
+    padding: 12px 15px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+th:nth-child(odd) {
+    background-color: #acbdd1; 
+}
+.dashboard td:nth-child(odd) {
+    background-color: #cad4df;
+}
+td {
+    padding: 10px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #f8fafc;
+}
+
+/* 6. Footer */
+footer {
+    grid-column: 2;
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+    font-size: 13px;
+}

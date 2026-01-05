@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{%from 'formcapture.html' import formcapture%}
+{%from 'header.html' import header%}
+{% from 'newshipment.html' import render_new_shipment_form%}
+    {% block head %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+          {% endblock %}
+          
+          {% block content %}
+{{ header() }}
+{{render_new_shipment_form()}}
+{{ formcapture() }}
+        <main>
+            <table >
+                <thead>
+                    <tr >
+                        <th>Numero de Seguimiento</th>
+                        <th>Referencia Cliente</th>
+                        <th>Cliente</th>
+                        <th>Tipo de Unidad</th>
+                    
+                        <th style="background-color: rgb(206, 229, 250);">
+                            Operador</th>
+                            <th style="background-color: rgb(206, 229, 250);">Asignacion de Unidad</th>
+                        <th>Unit Truck</th>
+                        <th>Trailer</th>
+                        <th>Sello</th>
+                        <th>Placas</th>
+                        <th>Operacion</th>
+                        <th>Recolecta</th>
+                        <th>Entrega</th>
+                        <th>Recoleccion</th>
+                        <th>Salida de Patio</th>
+                        <th>MX Customs Inspeccion</th>
+                        <th>MX New Seal</th>
+                        <th>MX Customs Clear</th>
+                        <th>USA Customs Inspeccion</th>
+                        <th>USA New Seal</th>
+                        <th>USA Tipo de inspeccion</th>
+                        <th>USA Clear Customs</th>
+                        <th>Entregado</th>
+                        <th>Recibe</th>
+
+
+                    </tr>
+                </thead>
+                <tbody >
+                    {%for row in shipment%}
+<tr class="dashboard" id="{{row.trans_ref}}"  style="cursor:pointer;">                    
+                        <td>{{row.trans_ref}}</td>
+                        <td>{{row.cliente_ref}}</td>
+                        <td>{{row.cliente}}</td>
+                        <td>{{row.tipo_unidad}}</td>
+                        <td>{{row.operador}}</td>
+                        <td>{{row.asignacion_unidad}}</td>
+                        <td>{{row.unidad}}</td>
+                        <td>{{row.trailer}}</td>
+                        <td>{{row.sello_Ori}}</td>
+                        <td>{{row.placas}}</td>
+                        <td>{{row.tipo_operacion}}</td>
+                        <td>{{row.origen}}</td>
+                        <td>{{row.destino}}</td>
+                        <td>{{row.fecha_salida}}</td>
+                        <td>{{row.fecha_llegada}}</td>
+                        <td>{{row.inspeccion_mex}}</td>
+                        <td>{{row.n_sello_mex}}</td>
+                        <td>{{row.verde_Mex}}</td>
+                        <td>{{row.inspecccion_usa}}</td>
+                        <td>{{row.n_sello_usa}}</td>
+                        <td>{{row.tipo_inspeccion}}</td>
+                        <td>{{row.verde_usa}}</td>
+                        <td>{{row.fecha_finalizacion}}</td>
+                        <td>{{row.recive}}</td>
+                
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+        
+            </table>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Your Company Name</p>
+        </footer>
+    </div>
+{% endblock %}
