@@ -11,6 +11,7 @@ export function EditShipment() {
 
 export async function  getShipmentData(transRef) {
     try {
+        console.log(transRef)
         const response =  await fetch(`/api/updateShipment/${transRef}`)
         if (!response.ok) throw new Error("Something Went Wrong")
         
@@ -19,7 +20,7 @@ export async function  getShipmentData(transRef) {
         setupEditModal(data)
         
     } catch (error) {
-        console.error(error)
+        console.log(error)
     }
     
 }
@@ -125,11 +126,14 @@ editForm.addEventListener('submit',function(e){
         updatedData['trans_ref'] = document.getElementById('edit_trans_ref').value
         
         formData.forEach((value,key) =>{
-            
+            console.log("vale?")
             if (value !== originalData[key] && key !== 'trans_ref'){
                 updatedData[key]=value;
+                console.log(value,"time?")
             }
         })
+    console.log("enviado solo cambios", updatedData)
+
     fetch(editForm.action,{
         method:'POST',
         headers:{
@@ -140,13 +144,11 @@ editForm.addEventListener('submit',function(e){
     
     }).then(response =>{
         if (response.ok){
-            return response.json();
+           window.location.reload();
         }else{
-            throw new Error("Error al actuaizar el embarque")
+            console.error("Error al actuaizar el embarque")
         }
-    }).then(data =>
-        {
-        console.log(data)
+    }).then(data =>{
         if (data.action === 'redirect'){
             window.location.href = data.url
         }

@@ -1,0 +1,162 @@
+
+{% macro formcapture(shipment=None) %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+
+<div class="layout  form" id="layout">
+    
+    <form method="post" class="shipment-content" id="editShipmentForm" action="/shipmentupdate">        
+        <div class="general_info_section">
+            <h2>Shipment Capture</h2>
+
+            <input type="hidden" name="trans_ref" id="edit_trans_ref" value={{shipment.trans_ref}}>
+            <div class="form_field">
+                <label>Operador</label>
+            <input type="text" name="operador" placeholder="Operador">
+        </div>
+                
+                <div class="form_field">
+                    <label>Unit truck</label>
+                    <input type="text" name="unidad" placeholder="Unit Truck">
+                </div>
+                
+                <div class="form_field">
+                    <label >Trailer</label>
+                    <input type="text" placeholder="Trailer" name="trailer">
+                </div>
+                
+                <div class="form_field">
+                    <label >Seal</label>
+                    <input type="text" placeholder="seal" name="sello_Ori">
+                </div>
+                
+                <div class="form_field">
+                    <label >Tipo Operacion</label>
+                    <input type="text" placeholder="Tipo operacion" name="tipo_operacion">
+                </div>
+                
+                <div class="form_field">
+                    <label >Cliente</label>
+                    <input type="text" placeholder="cliente" name="cliente">
+                </div>
+                
+                <div class="form_field">
+                    <label >Recolecta</label>
+                    <input type="text" placeholder="recolecta" name="origen">
+                </div>
+                <div class="form_field">
+                    <label >Entrega</label>
+                    <input type="text" placeholder="entrega" name="destino">
+                </div>
+                
+                
+            </div>
+
+                <div class="inspection_section">
+                    <h2>Inspecciones</h2>
+                    
+                    <div class="form_field">
+                        <label>Rojo Aduana Mexicano</label>
+                        <div style="display: flex; gap: 5px;">
+                        <input type="datetime-local" name="inspeccion_mex" id="inspeccion_mex" placeholder="Rojo Aduana Mex..." class="date-input"> 
+                        <button type="button" class="btn-now" >Now</button>
+
+                    </div>
+                    </div>
+                    
+                    <div class="form_field">
+                        <label>Sello Nuevo Mex</label>
+                        <input type="text" name="n_sello_mex" id="mx_seal" placeholder="New Seal MX">
+                    </div>                
+                    
+                    
+                    <div class="form_field">
+                        <label>Rojo Aduana Americano</label>
+                        <div style="display: flex; gap: 5px;">
+                        <input type="datetime-local" name="inspecccion_usa" id="inspecccion_usa" placeholder="Rojo Aduana USA..." class="date-input">
+                        <button type="button" class="btn-now">Now</button>
+
+                    </div>
+                    </div>
+                    
+ 
+                    <div class="form_field">
+                        <label>Sello Nuevo USA</label>
+                        <input type="text" name="n_sello_usa" id="n_sello_usa" placeholder="New Seal USA..">
+                    </div>
+                <div class="form_filed">
+                    <label >Tipo  de inspeccion</label>
+                    <input type="text" name="tipo_inspeccion" placeholder="Tipo de Inspeccion">
+                </div>
+                
+                
+            </div>
+
+            <div class="estatus_section">
+                <h2>Estatus</h2>
+                
+                <div class="form_estatus">
+                    <label>Recoleccion</label>
+                    <div style="display: flex; gap: 5px;">
+                    <input type="datetime-local" name="fecha_llegada" class="date-input" id="fecha_llegada">                
+                    <button type="button" class="btn-now" >Now</button>
+                </div>
+                </div>
+
+                
+                <div class="form_estatus">
+                    <label>Salida de Patio Origen</label>
+                    <div style="display: flex; gap: 5px;">
+                    <input type="datetime-local" id="fecha_salida" name="fecha_salida" placeholder="Salida de Patio Origen" class="date-input">
+                    <button type="button" class="btn-now">Now</button>
+
+                </div>
+                </div>
+                
+                <div class="form_estatus">
+                    <label>Verde Mexicano</label>
+                    <div style="display: flex; gap: 5px;">
+                    <input type="datetime-local" name="verde_Mex" id="verde_Mex" placeholder="Verde Mexicano" class="date-input">
+                    <button type="button" class="btn-now" >Now</button>
+                </div>
+                </div>
+
+                
+                <div class="form_estatus">
+                    <label>Verde USA</label>
+                    <div style="display: flex; gap: 5px;">
+                    <input type="datetime-local" name="verde_usa" id="verde_usa" placeholder="Verde USA" class="date-input">
+                    <button type="button" class="btn-now" >Now</button>
+
+                </div>
+                </div>
+                
+                <div class="form_estatus">
+                    <label>Entrego</label>
+                    <div style="display: flex; gap: 5px;">
+                    <input type="datetime-local" name="fecha_finalizacion" id="fecha_finalizacion" placeholder="Entrego" class="date-input">
+                    <button type="button" class="btn-now" >Now</button>
+
+                </div>
+                </div>
+
+                <div class="form_estatus">
+                    <label>Recibe</label>
+                    <input type="text" name="recive" placeholder="Recibe"class="date-input">
+                </div>
+                
+                
+            </div>
+            
+            <div class="form_actions">
+                <button type="button" class="btn-cancel" >Cancel</button>
+                <button type="submit" class="btn-save">Save Shipment</button>
+                <button type="button" class="btn-edit" id="btn-edit">Edit Shipment</button>
+            </div>
+            
+        </form>
+        
+        
+        
+    </div>
+    
+    {% endmacro %}

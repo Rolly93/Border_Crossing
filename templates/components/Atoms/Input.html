@@ -1,0 +1,12 @@
+{%macro Atom_Input(campo)%}
+
+
+
+<div class="{{ campo.field }}">
+    <label>{{ campo.label }}</label>
+    <input type="{{ campo.type }}" 
+           name="{{ campo.name }}" 
+           placeholder="{{ campo.placeholder|replace('_', ' ')|upper }}">
+</div>
+
+{%endmacro%}

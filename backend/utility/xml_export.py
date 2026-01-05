@@ -1,12 +1,8 @@
 import os
-
-import paramiko
-import io
+import time
 from xml.dom import minidom
 from .shipment_logic import type_event , time_format
-import time
 import backend.exception.exceptions as DuplicatedEventError
-
 def eventcreador(event):
     """funccion para reorganizar los eventos y enviar eventos de exportacion via sftp
     """
@@ -55,11 +51,13 @@ def export_to_xml(event):
         
         fullpath = os.path.join(savapath, filename) 
 
+        
+        
+   
         with open(fullpath, 'wb') as f:
             f.write(xml_str)
             f.close()
-        sent_Sftp_file( fullpath,filename)
-
+        sent_Sftp_file(event, fullpath)
     except Exception as e:
         raise e
     
@@ -76,30 +74,28 @@ def isduplicate(event_prefix):
             return True
             
     return False
+def sent_Sftp_file(event, filepath):
+    """Funcion para enviar el archivo via SFTP
+    """
+    import paramiko
 
-
-def sent_Sftp_file( fullpath,filename):
-
-    host = 'localhost'
-    port = 2222
-    username = 'tester'
-    password = 'password'
-
-
-    file_path = fullpath
+    sftp_host = 'sftp.example.com'
+    sftp_port = 22
+    sftp_username = 'your_username'
+    sftp_password = 'your_password'
+    remote_path = '/remote/directory/'
 
     try:
-
-        transport = paramiko.Transport((host, port ))
-        transport.connect(username=username, password=password)    
-
-        remote_path = f"./events/{filename}"
-
+        transport = paramiko.Transport((sftp_host, sftp_port))
+        transport.connect(username=sftp_username, password=sftp_password)
         sftp = paramiko.SFTPClient.from_transport(transport)
-        sftp.put(file_path,remote_path)
+
+        filename = os.path.basename(filepath)
+        remote_filepath = os.path.join(remote_path, filename)
+
+        sftp.put(filepath, remote_filepath)
+
         sftp.close()
-        print("File uploaded successfully.")
+        transport.close()
     except Exception as e:
-        print(f"An error occurred: {e}")
-    finally:
-            transport.close()
+        raise e

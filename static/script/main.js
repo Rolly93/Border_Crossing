@@ -8,7 +8,7 @@ import { getShipmentiD ,setupEditModal , getShipmentData} from './shipment.js';
 
         row.addEventListener('dblclick', () => {
             
-
+            console.log("??")
             const refId = row.cells[0].textContent;
             getShipmentiD(refId);
         });

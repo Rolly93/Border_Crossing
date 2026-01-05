@@ -1,0 +1,22 @@
+body{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;;
+    grid-template-areas: 
+    "nav header"
+    "nav main"
+    "nav footer";
+    height: 100vh;
+}
+
+nav{
+    grid-area: nav;
+
+}
+main{
+    grid-area: main;
+}
+footer{
+    grid-area: footer;
+}
+

@@ -1,0 +1,60 @@
+{% macro render_new_shipment_form(class) %}
+{% from 'components/Atoms/Input.html' import  Atom_Input %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/newshipmet.css') }}">
+
+<div class="newshipment shipmentform form" id="newshipmet" >
+<form method="POST" class="newshipment_content" action="{{ url_for('shipment_bp.new_shipment') }}">        
+    <div class="general_info_section">
+            <h2>New Shipment</h2>
+            
+
+            <div class="form_field">
+                <label>Tipo de operacion</label>
+                <select name="tipo_operacion" id="tipo_operacion">
+                    <option value="exportacion">Exportacion</option>
+                    <option value="Importacion">Importacion</option>
+                    <option value="Movimiento Local">Movimiento Local</option>
+                </select>
+            </div>
+            
+            {%
+                set campos = [
+                    {'field':"form_field" , 'label':"Operador" , 'type':"text" , 'name':"Operador", 'placeholder' :"operador"},
+                    {'field':"form_field" , 'label':"Unit truck" , 'type':"text" , 'name':"Unit truck", 'placeholder' :"Unit truck"},
+                    {'field':"form_field" , 'label':"Tipo de Unidad" , 'type':"text" , 'name':"Tipo de Unidad", 'placeholder' :"Tipo de Unidad"} ,
+                    {'field':"form_field" , 'label':"Cliente" , 'type':"text" , 'name':"Cliente", 'placeholder' :"Cliente"},
+                    {'field':"form_field" , 'label':"Referencia de Cliente" , 'type':"text" , 'name':"Referencia de Cliente", 'placeholder' :"Referencia de Cliente"},
+                    {'field':"form_field" , 'label':"Trailer" , 'type':"text" , 'name':"Trailer", 'placeholder' :"Trailer"},
+                    {'field':"form_field" , 'label':"Placas" , 'type':"text" , 'name':"Placas", 'placeholder' :"Placas"},
+                    {'field':"form_field" , 'label':"Sello" , 'type':"text" , 'name':"Sello", 'placeholder' :"Sello"},
+                    {'field':"form_field" , 'label':"Recolecta" , 'type':"text" , 'name':"Recolecta", 'placeholder' :"Recolecta"},
+                    {'field':"form_field" , 'label':"Entrega" , 'type':"text" , 'name':"Entrega", 'placeholder' :"Entrega"}
+
+                ]
+            %}
+
+                {% for campo in campos %}
+                    {{ Atom_Input(campo)}}
+                {% endfor %}
+
+        </div>
+
+        <div class="form_actions">
+            <button type="submit" class="btn-save">Save Shipment</button>
+            <button type="button" class="btn-cancel">Cancel</button>
+        </div>
+    </form>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+     <div class="alert alert-{{ category }}" style=" width : 300px; padding: 10px; margin: 10px; border-radius: 5px; background-color: {% if category == 'danger' %}#f8d7da{% else %}#d4edda{% endif %};">
+        {{ message }}
+        <span style="float:right; cursor:pointer;" onclick="this.parentElement.remove()">×</span>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endmacro %}
