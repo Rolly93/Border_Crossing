@@ -1,6 +1,6 @@
+from backend.model.models import users_db
 from flask_login import login_required , current_user,login_user
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-
 auth_bp = Blueprint('auth_bp', __name__)
 
 @auth_bp.route('/', methods=['GET'])
@@ -13,9 +13,10 @@ def login_post():
     password = request.form.get('password')
     
     if username =='admid' and password == '1234':
-        from app import users_db
-        users_db = users_db.get('1')
-        login_user(users_db)
+
+
+        user = users_db.get('1')
+        login_user(user)
         flash("Has iniciado sesión", "success")
         return redirect(url_for('dashboard_bp.dashboard'))
     

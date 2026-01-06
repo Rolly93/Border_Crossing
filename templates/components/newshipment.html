@@ -1,5 +1,6 @@
 {% macro render_new_shipment_form(class) %}
 {% from 'components/Atoms/Input.html' import  Atom_Input %}
+{% from 'components/Atoms/ErrorMessage.html' import  Error_Message %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/newshipmet.css') }}">
 
 <div class="newshipment shipmentform form" id="newshipmet" >
@@ -45,16 +46,7 @@
         </div>
     </form>
 </div>
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-     <div class="alert alert-{{ category }}" style=" width : 300px; padding: 10px; margin: 10px; border-radius: 5px; background-color: {% if category == 'danger' %}#f8d7da{% else %}#d4edda{% endif %};">
-        {{ message }}
-        <span style="float:right; cursor:pointer;" onclick="this.parentElement.remove()">×</span>
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+{{Error_Message(messages)}}
 
 
 {% endmacro %}

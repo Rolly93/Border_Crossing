@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-
+{% from 'components/Atoms/ErrorMessage.html' import  Error_Message %}
 
     {% block head %}
       <link rel="stylesheet" href="{{ url_for('static', filename='styles/homepage.css') }}">
           {% endblock %}
 
 {% block content %}
+{{Error_Message(messages)}}
     <div class="login-container">
         <h2>Member Login</h2>
         

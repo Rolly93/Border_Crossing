@@ -1,0 +1,16 @@
+
+
+{%macro Error_Message(messages)%}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+     <div class="alert alert-{{ category }}" style=" width : 300px; padding: 10px; margin: 10px; border-radius: 5px; position: absolute;height: 100px;text-align: center;align-content: center; background-color: {% if category == 'danger' %}#f8d7da{% else %}#d4edda{% endif %};">
+        {{ message }}
+        <span style="float:right; cursor:pointer;" onclick="this.parentElement.remove()">×</span>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+{% endmacro %}

@@ -1,5 +1,5 @@
-import sqlite3
 import os
+import sqlite3
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logistica.db')  
 def  get_db_connection():
@@ -66,25 +66,31 @@ def create_database():
      char_hazmat BOOLEAN,
      str_condiciones TEXT
  );
+CREATE TABLE IF NOT EXISTS Bitacora_Eventos (
+    id_evento INTEGER PRIMARY KEY AUTOINCREMENT,
+    uk_ref VARCHAR(50) NOT NULL,
+    str_tipo_evento VARCHAR(30) NOT NULL,
+    str_capturado VARCHAR(100),         
+    str_caja VARCHAR(50),               
+    str_tractor VARCHAR(50),            
+    str_chofer VARCHAR(100),            
+    str_tipo_cargo INTEGER,             
+    fecha DATETIME NOT NULL,            
+    fecha_captura DATETIME DEFAULT CURRENT_TIMESTAMP,
+    str_comentarios VARCHAR(255),
+    
+    -- Llaves foráneas (Asegúrate que estas tablas existan primero)
+    FOREIGN KEY (str_caja) REFERENCES Caja (str_num_caja),
+    FOREIGN KEY (str_tractor) REFERENCES Transporte (uk_num_unidad)
+);
 
- -- 2. Tablas de Eventos (Cronología)
- -- Se mantiene la estructura DATETIME para facilitar la comparación de tiempos
- CREATE TABLE IF NOT EXISTS fecha_llegada (
-     uk_ref VARCHAR,
-     str_capturado VARCHAR,
-     str_caja VARCHAR,
-     str_tractor VARCHAR,
-     str_chofer VARCHAR,
-     str_tipo INTEGER,
-     fecha DATETIME,
-     str_evento VARCHAR,
-     FOREIGN KEY (str_capturado) REFERENCES Cargo (str_nombre_cargo),
-     FOREIGN KEY (str_caja) REFERENCES Caja (str_num_caja),
-     FOREIGN KEY (str_tractor) REFERENCES Transporte (uk_num_unidad),
-     FOREIGN KEY (str_chofer) REFERENCES Cargo (str_nombre_cargo)
- );
+-- 2. Índices de Rendimiento (Cruciales para que el Dashboard sea rápido)
+-- Este índice permite que el GROUP BY uk_ref sea instantáneo
+CREATE INDEX IF NOT EXISTS idx_bitacora_ref ON Bitacora_Eventos (uk_ref);
 
- -- ... (Las tablas fecha_salida, inspeccion_mex, verde_Mex, inspecccion_usa, verde_usa, fecha_finalizacion siguen el mismo patrón)
+-- Este índice ayuda a ordenar los embarques más recientes primero
+CREATE INDEX IF NOT EXISTS idx_bitacora_fecha ON Bitacora_Eventos (fecha);
+
 
  -- 3. Tablas de Clientes y Configuración (Actualizadas con Host y Ruta)
  CREATE TABLE IF NOT EXISTS cliente (

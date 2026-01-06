@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+    <h1>500 - Error del Servidor</h1>
+    <p>Hubo un problema técnico al procesar tu solicitud. Nuestro equipo ha sido notificado.</p>
+    <a href="{{ url_for('dashboard_bp.dashboard') }}">Regresar a un lugar seguro</a>
+</div>
+{% endblock %}
