@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 {% for row in data_list %}
-                    <tr id="{{ row.get('id', '') }}">
+                    <tr class="{{ class }}" id="{{ row.values()|list|first }}">
                         {% for key in columns %}
                             {# Buscamos el valor por la LLAVE, no por el valor de la fila #}
                             <td>{{ row.get(key) if row.get(key) is not none else '' }}</td>
