@@ -1,4 +1,3 @@
-from flask_login import UserMixin
 from backend.db.confi import Config
 from flask_login import LoginManager
 from backend.routes.api import api_bp
@@ -12,8 +11,6 @@ from backend.routes.dashboard import dashboard_bp
 
 # Configuración de Flask
 def create_app ():
-
-
     app = Flask(__name__)
     app.config.from_object(Config)
 
