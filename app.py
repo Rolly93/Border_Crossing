@@ -49,4 +49,4 @@ if __name__ == '__main__':
     app = create_app()
     app.run(debug=app.config['DEBUG'],port=app.config.get('PORT', 5000))
 else:
-    app = create_app()
+    myapp = create_app()
