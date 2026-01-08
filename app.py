@@ -44,7 +44,7 @@ def create_app (*args, **kwargs):
     app.register_blueprint(client_bp)
     
     return app
-
+app = create_app()
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=app.config['DEBUG'],port=app.config.get('PORT', 5000))
