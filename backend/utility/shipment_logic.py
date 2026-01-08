@@ -1,6 +1,6 @@
+import time
 from datetime import datetime
 from ..exception.exceptions import ShipmentValidationError
-import time
 
 def validate_shipment(newData):
     """The 'Bridge' - Validation Logic"""

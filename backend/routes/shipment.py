@@ -16,14 +16,14 @@ shipment_bp = Blueprint('shipment_bp', __name__)
 @login_required
 def new_shipment():
     shipment_details = request.form.to_dict()
-    
+    print(shipment_details)
     try:
         shipment_details = validate_client_shipment(shipment_details)
       
         insertData(shipment_details)
         flash("¡Embarque guardado exitosamente!", "success")
     except Exception as e:
-        flash(f"Error: {e}", "danger")
+        flash(f"Error: que no se este {e}", "danger")
     return redirect(url_for('dashboard_bp.dashboard'))
 
 

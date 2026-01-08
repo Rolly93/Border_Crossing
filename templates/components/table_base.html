@@ -1,40 +1,35 @@
-{%macro render_table (data_list , class)%}
-{% if data_list %}
-<table>
-<thead>
-    <tr>
-{% for key in data_list[0].keys() %}
+{% macro render_table(data_list, class) %}
+    {% if data_list %}
+        {# Guardamos las llaves de las columnas basándonos en el primer registro #}
+        {% set columns = data_list[0].keys() %}
+        
+        <table class="{{ class }}">
+            <thead>
+                <tr>
+                    {% for key in columns %}
                         <th>{{ key | replace('_', ' ') | upper }}</th>
                     {% endfor %}
-    </tr>
-</thead>
-<tbody>
-{%for row in data_list%}
-<tr>
-    {% for row in data_list %}
-    <tr class='{{class}}' id = "{{row[0]}}">
-        {% for value in row.values() %}
-        <td>{{ value if value is not none else '' }}</td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-</tr>
-{%endfor%}
-
-</tbody>
-{% else%}
-<div class="empty-state">
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data_list %}
+                    <tr id="{{ row.get('id', '') }}">
+                        {% for key in columns %}
+                            {# Buscamos el valor por la LLAVE, no por el valor de la fila #}
+                            <td>{{ row.get(key) if row.get(key) is not none else '' }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-state">
             <div class="icon">📁</div>
             <h3>No hay registros disponibles</h3>
-            <p>Actualmente no se encontro informacion para mostrar en esta sección.</p>
+            <p>Actualmente no se encontró información para mostrar en esta sección.</p>
             <a href="{{ url_for('dashboard_bp.dashboard', action='new') }}" class="btn-primary">
                 + Crear Primer Embarque
             </a>
         </div>
-
-{%endif%}
-
-</table>
-
-
-{%endmacro%}
+    {% endif %}
+{% endmacro %}

@@ -7,7 +7,7 @@ data =[ {"trans_ref":"Rar3215",
          "tipo_unidad":"Trialer",
          "operador":"Abraham",
          "asignacion_unidad":"12/26/2025 11:10",
-         "unidad":"unit_t253 ",
+         "unit_truck":"unit_t253 ",
          "trailer":"HGIU5207456",
          "sello_Ori":"Seal_3215",
          "placas":"333460W",
@@ -27,7 +27,7 @@ data =[ {"trans_ref":"Rar3215",
          "recive":"Juan" }]
 
 def getData():
-    
+    print(data)
     return data
 
 def insertData(newData):
@@ -36,7 +36,7 @@ def insertData(newData):
     newData['trans_ref'] = 'RAC' + str(rand_part)
     data.append(newData)
     
-    return data
+    
 
 
 def updateData(changes):
