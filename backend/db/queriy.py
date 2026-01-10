@@ -107,19 +107,19 @@ class SFTPDB(DatabaseOperacion):
 
 class EmployeeDB(DatabaseOperacion):
     """ Clase para manejar operaciones relacionadas con empleados."""
-    def insert_employee(self, nombre_empleado, rol):
+    def insert_employee(self, nombre_empleado, rol ,email,):
         """Funcion para crear un empleado en la base de datos"""
         query = "INSERT INTO empleado (nombre_empleado, rol) VALUES (?, ?)"
-        employee_data = (nombre_empleado, rol)
+        employee_data = (nombre_empleado, rol,email)
         try:
             return self._ejecutar(query, employee_data)
         except Exception as e:
             raise e
 
-    def update_employee(self, empleado_id, nombre_empleado, rol):
+    def update_employee(self, empleado_id, nombre_empleado, rol ,email):
         """Actualiza la información de un empleado."""
         query = "UPDATE empleado SET nombre_empleado = ?, rol = ? WHERE empleado_id = ?"
-        employee_data = (nombre_empleado, rol, empleado_id)
+        employee_data = (nombre_empleado, rol, empleado_id ,email)
         try:
             self._ejecutar(query, employee_data)
         except Exception as e:
@@ -221,18 +221,18 @@ class status_cruce(DatabaseOperacion):
         if event_type not in self._EVENTOS:
             raise ValueError(f"El evento '{event_type}' no es válido.")
 
-    def insertar_evento(self, id_traier, id_unidad, id_operador, id_CSR, status, fecha, fecha_captura, tipo_evento, cliente_ref, trans_ref):
+    def insertar_evento(self, id_traier, id_unidad, id_operador, id_CSR, status, fecha,  tipo_evento, cliente_ref, trans_ref):
         """Inserta un nuevo registro en la bitácora única."""
         self.is_valid_event(tipo_evento)
         
         # El query siempre apunta a la misma tabla: Bitacora_Eventos
         query = """
             INSERT INTO Bitacora_Eventos 
-            (uk_ref, str_tipo_evento, id_traier, id_unidad, id_operador, id_CSR, status, fecha, fecha_captura, cliente_ref) 
+            (uk_ref, tipo_evento, id_traier, id_unidad, id_operador, id_CSR, status, fecha, cliente_ref) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
         # trans_ref se usa como uk_ref para la unificación
-        evento_data = (trans_ref, tipo_evento, id_traier, id_unidad, id_operador, id_CSR, status, fecha, fecha_captura, cliente_ref)
+        evento_data = (trans_ref, tipo_evento, id_traier, id_unidad, id_operador, id_CSR, status, fecha, cliente_ref)
         return self._ejecutar(query, evento_data)
 
     def actualizar_evento(self, trans_ref, tipo_evento, nuevos_datos_dict):
@@ -245,30 +245,30 @@ class status_cruce(DatabaseOperacion):
         # Ejemplo: Actualizar la fecha y el status de la 'fecha_llegada' de un trans_ref específico
         query = """
             UPDATE Bitacora_Eventos 
-            SET status = ?, fecha = ?, id_operador = ?
-            WHERE uk_ref = ? AND str_tipo_evento = ?
+            SET tipo_evento = ?, fecha = ?, id_operador = ?
+            WHERE client_ref = ? AND tipo_evento = ?
         """
         params = (nuevos_datos_dict['status'], nuevos_datos_dict['fecha'], nuevos_datos_dict['id_operador'], trans_ref, tipo_evento)
         return self._ejecutar(query, params)
 
     def eliminar_evento(self, trans_ref, tipo_evento):
         """Elimina un paso específico de la cronología del cruce."""
-        query = "DELETE FROM Bitacora_Eventos WHERE uk_ref = ? AND str_tipo_evento = ?"
+        query = "DELETE FROM Bitacora_Eventos WHERE client_ref = ? AND tipo_evento = ?"
         return self._ejecutar(query, (trans_ref, tipo_evento))
     
 def obtener_dashboard(self):
         """Consulta pivoteada para tu tabla de la imagen."""
         query = """
             SELECT 
-                uk_ref, str_caja, str_tractor, str_chofer,
-                MAX(CASE WHEN str_tipo_evento = 'LLEGADA' THEN fecha END) AS fecha_llegada,
-                MAX(CASE WHEN str_tipo_evento = 'SALIDA' THEN fecha END) AS fecha_salida,
-                MAX(CASE WHEN str_tipo_evento = 'INSP_MEX' THEN fecha END) AS insp_mex,
-                MAX(CASE WHEN str_tipo_evento = 'INSP_MEX' THEN str_comentarios END) AS sello_mex,
-                MAX(CASE WHEN str_tipo_evento = 'VERDE_MEX' THEN fecha END) AS verde_mex,
-                MAX(CASE WHEN str_tipo_evento = 'FINALIZADO' THEN fecha END) AS fecha_finalizacion
+                trans_ref, id_trailer, id_unidad , id_operador, id_CSR, client_ref
+                MAX(CASE WHEN tipo_evento = 'LLEGADA' THEN fecha END) AS fecha_llegada,
+                MAX(CASE WHEN tipo_evento = 'SALIDA' THEN fecha END) AS fecha_salida,
+                MAX(CASE WHEN tipo_evento = 'INSP_MEX' THEN fecha END) AS insp_mex,
+                MAX(CASE WHEN tipo_evento = 'INSP_MEX' THEN str_comentarios END) AS sello_mex,
+                MAX(CASE WHEN tipo_evento = 'VERDE_MEX' THEN fecha END) AS verde_mex,
+                MAX(CASE WHEN tipo_evento = 'FINALIZADO' THEN fecha END) AS fecha_finalizacion
             FROM Bitacora_Eventos
-            GROUP BY uk_ref
+            GROUP BY trans_ref
             ORDER BY MAX(fecha_captura) DESC
         """
         # Usamos tu parámetro es_select=True para recibir la lista de diccionarios

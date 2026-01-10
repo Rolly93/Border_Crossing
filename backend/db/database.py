@@ -29,15 +29,25 @@ def create_database():
  CREATE TABLE IF NOT EXISTS transporte (
      transporte_id INTEGER PRIMARY KEY AUTOINCREMENT,
      uk_fk_asignado VARCHAR,
-     str_tipo VARCHAR, -Importacion / Exportacion
-     uk_placa VARCHAR, 
-     uk_num_unidad VARCHAR UNIQUE,
-     str_hazmat BOOLEAN ,
-     char_puede_cruzar BOOLEAN,
-     FOREIGN KEY (uk_fk_asignado) REFERENCES Cargo (str_nombre_cargo)
+     tipo VARCHAR, -Importacion / Exportacion
+     placa VARCHAR, 
+     num_unidad VARCHAR UNIQUE,
+     ishazmat BOOLEAN ,
+     puede_cruzar BOOLEAN,
+     FOREIGN KEY (uk_fk_asignado) REFERENCES empleado (nombre_empleado)
  );
 
- CREATE TABLE IF NOT EXISTS Caja (
+ CREATE TABLE IF NOT EXISTS trailer (
+     trailer_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     numero_trailer VARCHAR UNIQUE,
+     placas VARCHAR,
+     hazmat BOOLEAN,
+     register_date DATETIME DEFAULT CURRENT_TIMESTAMP
+ );
+
+
+
+ CREATE TABLE IF NOT EXISTS caja (
      id_caja INTEGER PRIMARY KEY AUTOINCREMENT,
      num_caja VARCHAR UNIQUE,
      placas VARCHAR,
@@ -45,22 +55,26 @@ def create_database():
      ishazmat BOOLEAN,
      str_condiciones VARCHAR
  );
+
 CREATE TABLE IF NOT EXISTS Bitacora_Eventos (
     id_evento INTEGER PRIMARY KEY AUTOINCREMENT,
-    uk_ref VARCHAR(50) NOT NULL,
-    str_tipo_evento VARCHAR(30) NOT NULL,
-    str_capturado VARCHAR(100),         
-    str_caja VARCHAR(50),               
-    str_tractor VARCHAR(50),            
-    str_chofer VARCHAR(100),            
-    str_tipo_cargo INTEGER,             
+    client_ref VARCHAR(50) NOT NULL,
+    trans_ref VARCHAR(50) NOT NULL,
+    tipo_evento VARCHAR(30) NOT NULL,         
+    id_trailer VARCHAR(50),              
+    id_unidad VARCHAR(50),              
+    id_operador VARCHAR(100),           
+    id_CSR VARCHAR(50),                 
+    status VARCHAR(50),                 
     fecha DATETIME NOT NULL,            
     fecha_captura DATETIME DEFAULT CURRENT_TIMESTAMP,
-    str_comentarios VARCHAR(255),
+
     
     -- Llaves foráneas (Asegúrate que estas tablas existan primero)
-    FOREIGN KEY (str_caja) REFERENCES Caja (num_caja),
-    FOREIGN KEY (str_tractor) REFERENCES Transporte (uk_num_unidad)
+    FOREIGN KEY (id_trailer) REFERENCES caja (num_caja),
+    FOREIGN KEY (id_unidad) REFERENCES Transporte (uk_num_unidad),
+    FOREIGN KEY (id_operador) REFERENCES empleado (nombre_empleado),
+    FOREIGN KEY (id_CSR) REFERENCES empleado (nombre_empleado)
 );
 
 -- 2. Índices de Rendimiento (Cruciales para que el Dashboard sea rápido)
@@ -88,6 +102,15 @@ CREATE INDEX IF NOT EXISTS idx_bitacora_fecha ON Bitacora_Eventos (fecha);
      FOREIGN KEY (cliente) REFERENCES cliente (cliente_id)
  );
 
+CREATE TABLE IF NOT EXISTS user (
+    id_user INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_empleado VARCHAR,
+    email VARCHAR UNIQUE,
+    password VARCHAR,
+    admit BOOLEAN,
+    FOREIGN KEY (nombre_empleado) REFERENCES empleado (nombre_empleado)
+);
+ 
  -- 4. Cruce Completo
  CREATE TABLE IF NOT EXISTS CruceCompleto (
      str_Tractor VARCHAR,
