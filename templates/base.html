@@ -17,7 +17,12 @@
       {% endblock %}
       
       {%block scripts%}
-      {%endblock%}
+      {%if logit%}
+      <script type="module" src="{{ url_for('static', filename='script/login.js') }}"></script>
+      {%else%}
       <script type="module" src="{{ url_for('static', filename='script/main.js') }}"></script>
+      
+      {%endif%}
+      {%endblock%}
 </body>
 </html>

@@ -1,8 +1,6 @@
 import { filterTable , setCurrentTime , enableInput} from './utils.js';
 import { getShipmentiD ,setupEditModal , getShipmentData} from './shipment.js';
 
-
-
     const shipmentRows = document.querySelectorAll("tr.dashboard");
     shipmentRows.forEach((row) => {
 

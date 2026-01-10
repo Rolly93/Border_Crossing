@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'components/atoms/loading.html' import atom_loading %}
 {% from 'components/atoms/errormessage.html' import  Error_Message %}
 
     {% block head %}
@@ -7,10 +8,11 @@
 
 {% block content %}
 {{Error_Message(messages)}}
+{{ atom_loading()}}
     <div class="login-container">
         <h2>Member Login</h2>
         
-        <form action="/login" method="post">
+        <form action="/login" method="post" id="login">
             
             <div class="form-group">
                 <label for="username">Username:</label>

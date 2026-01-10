@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+{%from 'components/table_base.html' import render_table%}
+{% from 'components/nav.html' import nav_bar%}
+{%from 'components/header.html' import header%}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+{% endblock %}
+
+
+{% block content%}
+        <header>
+{{ header('Empleados Registrados') }}
+        </header>
+
+<nav>
+    {{nav_bar()}}
+</nav>
+<main>
+{{render_table(empleados ,"empleados" )}}
+</main>
+
+<footer>
+    <p>&copy; 2025 Your Company Name</p>
+</footer>
+{%endblock%}
