@@ -7,6 +7,7 @@ from backend.model.models import users_db
 from backend.routes.client import client_bp
 from backend.routes.shipment import shipment_bp
 from backend.routes.dashboard import dashboard_bp
+from backend.routes.empleado import employee_bp
 
 
 # Configuración de Flask
@@ -42,6 +43,7 @@ def create_app (*args, **kwargs):
     app.register_blueprint(shipment_bp)
     app.register_blueprint(api_bp)
     app.register_blueprint(client_bp)
+    app.register_blueprint(employee_bp)
     
     return app
 

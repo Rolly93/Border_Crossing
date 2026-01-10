@@ -17,54 +17,33 @@ def create_database():
     # SQL Schema provided
     sql_script = """
 -- 1. Tablas Maestras
- CREATE TABLE IF NOT EXISTS Empleados (
-     pk_empleado_id INTEGER PRIMARY KEY AUTOINCREMENT,
-     str_nombre VARCHAR,
-     int_edad INTEGER,
-     date_fecha_nacimiento DATE,
-     str_seguro_social VARCHAR NOT NULL,
-     str_rfc VARCHAR NOT NULL,
-     str_curp VARCHAR NOT NULL,
-     str_licencia VARCHAR,
+ CREATE TABLE IF NOT EXISTS empleado (
+     empleado_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     nombre_empleado VARCHAR,
+     rol VARCHAR,
+     email VARCHAR
      date_ingreso DATE NOT NULL
  );
 
- CREATE TABLE IF NOT EXISTS Cargo (
-     uk_empleado_id INTEGER, -- Eliminado AUTOINCREMENT (es una FK)
-     str_nombre_cargo VARCHAR UNIQUE,
-     str_area_cargo VARCHAR,
-     uk_str_correo VARCHAR UNIQUE,
-     FOREIGN KEY (uk_empleado_id) REFERENCES Empleados (pk_empleado_id)
- );
 
- CREATE TABLE IF NOT EXISTS Areas (
-     str_cargo VARCHAR,
-     str_puesto VARCHAR,
-     FOREIGN KEY (str_cargo) REFERENCES Cargo (str_nombre_cargo),
-     FOREIGN KEY (str_puesto) REFERENCES Cargo (str_area_cargo)
- );
-
- CREATE TABLE IF NOT EXISTS Transporte (
-     pk_uk_transporte_id INTEGER PRIMARY KEY AUTOINCREMENT,
-     str_uk_fk_asignado VARCHAR,
-     str_tipo VARCHAR,
-     uk_placa VARCHAR,
+ CREATE TABLE IF NOT EXISTS transporte (
+     transporte_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     uk_fk_asignado VARCHAR,
+     str_tipo VARCHAR, -Importacion / Exportacion
+     uk_placa VARCHAR, 
      uk_num_unidad VARCHAR UNIQUE,
-     int_ejes INTEGER,
-     str_hazmat BOOLEAN,
-     dbl_capacidad_peso REAL,
+     str_hazmat BOOLEAN ,
      char_puede_cruzar BOOLEAN,
-     str_tipo_dano VARCHAR,
-     FOREIGN KEY (str_uk_fk_asignado) REFERENCES Cargo (str_nombre_cargo)
+     FOREIGN KEY (uk_fk_asignado) REFERENCES Cargo (str_nombre_cargo)
  );
 
  CREATE TABLE IF NOT EXISTS Caja (
-     pk_caja_clave INTEGER PRIMARY KEY AUTOINCREMENT,
-     str_num_caja VARCHAR UNIQUE,
-     uk_str_placas VARCHAR,
-     str_estado VARCHAR,
-     char_hazmat BOOLEAN,
-     str_condiciones TEXT
+     id_caja INTEGER PRIMARY KEY AUTOINCREMENT,
+     num_caja VARCHAR UNIQUE,
+     placas VARCHAR,
+     estado VARCHAR,
+     ishazmat BOOLEAN,
+     str_condiciones VARCHAR
  );
 CREATE TABLE IF NOT EXISTS Bitacora_Eventos (
     id_evento INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -80,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Bitacora_Eventos (
     str_comentarios VARCHAR(255),
     
     -- Llaves foráneas (Asegúrate que estas tablas existan primero)
-    FOREIGN KEY (str_caja) REFERENCES Caja (str_num_caja),
+    FOREIGN KEY (str_caja) REFERENCES Caja (num_caja),
     FOREIGN KEY (str_tractor) REFERENCES Transporte (uk_num_unidad)
 );
 
@@ -125,7 +104,7 @@ CREATE INDEX IF NOT EXISTS idx_bitacora_fecha ON Bitacora_Eventos (fecha);
      str_Entrega_Fecha DATETIME,
      str_Entrega_Recibe VARCHAR,
      FOREIGN KEY (str_Tractor) REFERENCES Transporte (uk_num_unidad),
-     FOREIGN KEY (str_caja) REFERENCES Caja (str_num_caja)
+     FOREIGN KEY (str_caja) REFERENCES Caja (num_caja)
  );"""
 
     try:
