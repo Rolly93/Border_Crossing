@@ -21,20 +21,21 @@ def create_database():
      empleado_id INTEGER PRIMARY KEY AUTOINCREMENT,
      nombre_empleado VARCHAR,
      rol VARCHAR,
-     email VARCHAR
-     date_ingreso DATE NOT NULL
+     email VARCHAR,
+     date_ingreso DATE DEFAULT (CURRENT_DATE ) 
  );
 
 
  CREATE TABLE IF NOT EXISTS transporte (
      transporte_id INTEGER PRIMARY KEY AUTOINCREMENT,
-     uk_fk_asignado VARCHAR,
-     tipo VARCHAR, -Importacion / Exportacion
-     placa VARCHAR, 
+     empleado_id INTEGER, -- aquien se lo asignan
+     tipo VARCHAR, --trailer , placa , 3.5 etc
+     placa VARCHAR UNIQUE, 
      num_unidad VARCHAR UNIQUE,
      ishazmat BOOLEAN ,
-     puede_cruzar BOOLEAN,
-     FOREIGN KEY (uk_fk_asignado) REFERENCES empleado (nombre_empleado)
+     puede_cruzar BOOLEAN DEFAULT TRUE,
+     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+     FOREIGN KEY (empleado_id) REFERENCES empleado (empleado_id)
  );
 
  CREATE TABLE IF NOT EXISTS trailer (
@@ -44,26 +45,18 @@ def create_database():
      hazmat BOOLEAN,
      register_date DATETIME DEFAULT CURRENT_TIMESTAMP
  );
+ 
 
-
-
- CREATE TABLE IF NOT EXISTS caja (
-     id_caja INTEGER PRIMARY KEY AUTOINCREMENT,
-     num_caja VARCHAR UNIQUE,
-     placas VARCHAR,
-     estado VARCHAR,
-     ishazmat BOOLEAN,
-     str_condiciones VARCHAR
- );
-
-CREATE TABLE IF NOT EXISTS Bitacora_Eventos (
+CREATE TABLE IF NOT EXISTS bitacora_eventos (
     id_evento INTEGER PRIMARY KEY AUTOINCREMENT,
     client_ref VARCHAR(50) NOT NULL,
     trans_ref VARCHAR(50) NOT NULL,
     tipo_evento VARCHAR(30) NOT NULL,         
-    id_trailer VARCHAR(50),              
+    trailer_id VARCHAR(50),              
     id_unidad VARCHAR(50),              
-    id_operador VARCHAR(100),           
+    id_operador VARCHAR(100),
+    comentarios VARCHAR(250),       
+    sello VARCHAR(250),       
     id_CSR VARCHAR(50),                 
     status VARCHAR(50),                 
     fecha DATETIME NOT NULL,            
@@ -71,29 +64,30 @@ CREATE TABLE IF NOT EXISTS Bitacora_Eventos (
 
     
     -- Llaves foráneas (Asegúrate que estas tablas existan primero)
-    FOREIGN KEY (id_trailer) REFERENCES caja (num_caja),
-    FOREIGN KEY (id_unidad) REFERENCES Transporte (uk_num_unidad),
+    FOREIGN KEY (trailer_id) REFERENCES trailer (numero_trailer),
+    FOREIGN KEY (id_unidad) REFERENCES transporte (num_unidad),
     FOREIGN KEY (id_operador) REFERENCES empleado (nombre_empleado),
     FOREIGN KEY (id_CSR) REFERENCES empleado (nombre_empleado)
 );
 
 -- 2. Índices de Rendimiento (Cruciales para que el Dashboard sea rápido)
--- Este índice permite que el GROUP BY uk_ref sea instantáneo
-CREATE INDEX IF NOT EXISTS idx_bitacora_ref ON Bitacora_Eventos (uk_ref);
+-- Este índice permite que el GROUP BY trnasf_ref sea instantáneo
+CREATE INDEX IF NOT EXISTS idx_bitacora_ref ON bitacora_eventos (trans_ref);
 
 -- Este índice ayuda a ordenar los embarques más recientes primero
-CREATE INDEX IF NOT EXISTS idx_bitacora_fecha ON Bitacora_Eventos (fecha);
+CREATE INDEX IF NOT EXISTS idx_bitacora_fecha ON bitacora_eventos (fecha);
 
 
  -- 3. Tablas de Clientes y Configuración (Actualizadas con Host y Ruta)
  CREATE TABLE IF NOT EXISTS cliente (
      cliente_id INTEGER PRIMARY KEY AUTOINCREMENT,
      nombre_cliente VARCHAR,
-     conneccion_sftp BOOLEAN
+     conneccion_sftp BOOLEAN,
+     caputrado DATETIME DEFAULT CURRENT_TIMESTAMP
  );
 
  CREATE TABLE IF NOT EXISTS sftp (
-     cliente INTEGER,
+     cliente INTEGER, --tiene que se el id
      usuario VARCHAR,
      puerto VARCHAR,
      password VARCHAR NOT NULL,
@@ -112,23 +106,24 @@ CREATE TABLE IF NOT EXISTS user (
 );
  
  -- 4. Cruce Completo
- CREATE TABLE IF NOT EXISTS CruceCompleto (
-     str_Tractor VARCHAR,
-     str_Operador VARCHAR,
-     str_caja VARCHAR,
-     str_Llegada_Fecha_Patio_Origen DATETIME,
-     str_Salida_Fecha_Patio_Origen DATETIME,
-     str_VerdeMX_Fecha DATETIME,
-     str_RojoMx_Fecha DATETIME,
-     str_RojoMX_NuevoSello VARCHAR,
-     str_VerdeUS_Fecha DATETIME,
-     str_RojoUSA_Fecha DATETIME,
-     str_RojoUSA_NuevoSello VARCHAR,
-     str_Entrega_Fecha DATETIME,
-     str_Entrega_Recibe VARCHAR,
-     FOREIGN KEY (str_Tractor) REFERENCES Transporte (uk_num_unidad),
-     FOREIGN KEY (str_caja) REFERENCES Caja (num_caja)
- );"""
+ CREATE TABLE IF NOT EXISTS crucecompleto (
+     tractor VARCHAR,
+     operador VARCHAR,
+     trailer VARCHAR,
+     Llegada_Fecha_Patio_Origen DATETIME,
+     Salida_Fecha_Patio_Origen DATETIME,
+     VerdeMX_Fecha DATETIME,
+     RojoMx_Fecha DATETIME,
+     RojoMX_NuevoSello VARCHAR,
+     VerdeUS_Fecha DATETIME,
+     RojoUSA_Fecha DATETIME,
+     RojoUSA_NuevoSello VARCHAR,
+     Entrega_Fecha DATETIME,
+     Entrega_Recibe VARCHAR,
+     FOREIGN KEY (tractor) REFERENCES transporte (num_unidad),
+     FOREIGN KEY (trailer) REFERENCES trailer (numero_trailer),
+     FOREIGN KEY (operador) REFERENCES empleado (nombre_empleado ) 
+     ); """
 
     try:
         conn = sqlite3.connect(database_name)
