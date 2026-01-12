@@ -5,7 +5,7 @@ import re
 import sqlite3
 from tokenize import Exponent
 
-from ..exception.exceptions      import exception
+#from ..exception.exceptions      import exception
 from backend.db.database import get_db_connection
 from backend.utility.utily import hashdata
 
