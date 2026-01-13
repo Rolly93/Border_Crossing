@@ -5,9 +5,9 @@ import re
 import sqlite3
 from tokenize import Exponent
 
-from ..exception.exceptions      import exception
+#from ..exception.exceptions      import exception
 from backend.db.database import get_db_connection
-from backend.utility.utily import hashdata
+from backend.utility.utily import hashdata ,cryptoPswd
 
 #configuracion para obtencion de datos 
 
@@ -77,18 +77,20 @@ class SFTPDB(DatabaseOperacion):
         INSERT INTO sftp (cliente, usuario, puerto, password, host, ruta_remota) 
         VALUES (?, ?, ?, ?, ?, ?)
         """
-        pswdhashed = hashdata(password)
+        pswdhashed = cryptoPswd(password)
 
         sftp_data = (id_cliente, usuario, puerto, pswdhashed, host, ruta_remota)
         return self._ejecutar(query, sftp_data)
         
-    def update_sftp(self, id_cliente, usuario, puerto, pswdhashed, host, ruta_remota):
+    def update_sftp(self, id_cliente, usuario, puerto, password, host, ruta_remota):
         """Actualiza la configuración SFTP de un cliente."""
         query = """
         UPDATE sftp 
         SET usuario = ?, puerto = ?, password = ?, host = ?, ruta_remota = ? 
         WHERE cliente = ?
         """
+        pswdhashed = cryptoPswd(password)
+
         sftp_data = (usuario, puerto, pswdhashed, host, ruta_remota, id_cliente)
         self._ejecutar(query, sftp_data)
         
