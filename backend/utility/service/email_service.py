@@ -3,8 +3,8 @@ import random
 import string
 
 class EmailService:
-    def __init__(self):
-        resend.api_key = "key_"
+    def __init__(self , api_key=None):
+        resend.api_key = api_key 
 
     def enviar_codigo_admin(self,email,codigo):
         try:

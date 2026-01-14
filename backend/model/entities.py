@@ -7,7 +7,3 @@ class User(UserMixin):
         self.rol = rol
 
 # La base de datos vive aquí, accesible para todos
-users_db = {
-    "1": User("1", "Administrador", "admin"),
-    "2": User("2", "Invitado", "cliente")
-}

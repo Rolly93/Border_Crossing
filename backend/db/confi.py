@@ -9,4 +9,4 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY','default_secret_key')
     DATABASE_PATH = os.getenv('DATABASE_URL')
     PORT =int(os.getenv('PORT',5000))
-    
+    RESNDER_API_KEY = os.getenv('RESEND_API_KEY','key_default')
