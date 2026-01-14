@@ -25,27 +25,25 @@ def login_post():
         return redirect(url_for('dashboard_bp.dashboard'))
     
     
-    return redirect(url_for('auth_bp.login'),logit=logit)
+    return redirect(url_for('auth_bp.login'))
 
 
-@auth_bp.route('/register/<token>', methods =['GET','POST'])
-def register(token):
-    #valodar el otken (podria ser un codigo que se guarde en la DB con tiempo de expiracion)
-    if not auth_service.calidar_token_registro(token):
-        flash("El enlace de registro es invalido o ha expirado","danger")
+@auth_bp.route('/setup/<token>', methods =['GET','POST'])
+def setup_inicial(token):
+    if not auth_service.es_token_valido(token):
+        flash("El enlace de configuracion es invalido o ha expirado","danger")
         return redirect(url_for('auth_bp.login'))
     
     if request.method == 'POST':
-
-        #metodo para crear el primer usuario admin
+        nombre= request.form.get('nombre')
         email = request.form.get('email')
         password = request.form.get('password')
         
-        exito =auth_service.crear_usuario_inicial(email,password,token)
-        if exito:
-            flash("Cuenta configurada con exito . Ta puedes iniciar sesion","success")
+        if auth_service.crear_usuario(nombre,email,password,es_admin=True):
+            flash("Usuario creado con exito","success")
             return redirect(url_for('auth_bp.login'))
-    return render_template('register.html', token=token)
+    
+    return render_template('setup.html', token=token)
 
 
 @auth_bp.route('/logout')
