@@ -27,6 +27,27 @@ def login_post():
     
     return redirect(url_for('auth_bp.login'))
 
+@auth_bp.route('/usuarios' , methods=['GET', 'POST'])
+@login_required
+def registrar_empleado():
+    if not current_user.admit:
+        # logica para manejo de usuarios 
+        flash("No tienes permisos para acceder a esta sección","danger")
+        return redirect(url_for('dashboard_bp.dashboard'))
+    
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        es_admin = True if request.form.get('es_admin')  else False
+
+        exito = auth_service.crear_usuario(nombre,email,password , es_admin)
+
+        if exito:
+            flash(f"Usuario: {nombre}  creado con exito","success")
+            return redirect(url_for('dashboard_bp.dashboard'))
+    return render_template('registrar_empleado.html')
+
 
 @auth_bp.route('/setup/<token>', methods =['GET','POST'])
 def setup_inicial(token):
