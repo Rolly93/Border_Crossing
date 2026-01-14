@@ -1,4 +1,4 @@
-from flask_login import login_required , current_user
+from flask_login import login_required 
 from flask import Blueprint, render_template , request , redirect ,url_for , flash
 
 employee_bp = Blueprint('employee_bp', __name__)

@@ -3,7 +3,7 @@ from flask_login import LoginManager
 from backend.routes.api import api_bp
 from backend.routes.auth import auth_bp
 from flask import Flask , render_template
-from backend.model.models import users_db
+#from backend.model.entities import users_db
 from backend.routes.client import client_bp
 from backend.routes.shipment import shipment_bp
 from backend.routes.dashboard import dashboard_bp

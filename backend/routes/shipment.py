@@ -1,8 +1,7 @@
 from backend.utility.xml_export import eventcreador
 from flask_login import login_required , current_user
-from flask_login import login_required , current_user
-from backend.db.db import insertData, updateData , getData
-from backend.exception.exceptions import ShipmentValidationError
+
+from backend.db.db import insertData, updateData  
 from backend.utility.shipment_logic import format_for_display , validate_client_shipment
 from flask import Blueprint, jsonify, request, redirect, url_for, flash , render_template
 
