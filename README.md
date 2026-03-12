@@ -2,6 +2,30 @@
 An pywebview application with flask  where I'm going to create a desktop app, asynchronous with GitHub in case of any updates.  this software it will be designed in special for this carries who need to sent files xml.for border crossing. and sent status by email.
 
 
+### Flujo de Operación del Sistema
+
+```mermaid
+
+graph TD
+    %% Nods definition
+    A[Dashboard / Interfaz] --> B(Actualización de Estatus)
+    
+    %% Destribution process
+    B --> C{Distribución de Tareas}
+    
+    %% Async assgiments
+    C --> D[Envío XML via SFTP]
+    C --> E[Notificación vía Email]
+    C --> F[(Base de Datos)]
+    
+    
+    style A fill:#432E54,stroke:#E8BCB9,stroke-width:2px,color:#ffff
+    style F fill:#4B4376,stroke:#E8BCB9,stroke-width:2px,color:#ffff
+    style C fill:#AE445A,stroke:#E8BCB9,color:#ffff
+
+```
+
+
 event will be creating:
 | Events | Descrption                  | Fomat | Send By |
 |--------|-----------------------------|-------|---------|
