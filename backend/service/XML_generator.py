@@ -5,7 +5,7 @@ import os
 class XMLService():
     """docstring for XMLService."""
     def __init__(self, referencia, tipo_operacion,codigo_transport,ref_transport,codigo_evento,date_time,comments, output_dir="temp/xmltemp/"):
-
+        self._output_dir=output_dir
         self.now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         
         if not os.path.exists(self._output_dir):
@@ -17,7 +17,7 @@ class XMLService():
                            ref_transport : str,
                            codigo_evento : str ,
                            date_time : str,
-                           comments : str)->object:
+                           comments : str)->str:
         """XML Events File Creator
         
         Keyword arguments:
@@ -29,7 +29,7 @@ class XMLService():
         date_time -- date and time when it happens.
         comments -- general comments..
         
-        Return: File XML with events created.
+        Return: FilePath : str.
         """
         
         root = ET.Element("AvisoEventos",{
@@ -43,6 +43,10 @@ class XMLService():
         })
         tree = ET.ElementTree(root)
         file_name = f"{codigo_transport}_{referencia}_{codigo_evento}_{self.now}.xml"
+        file_path = os.path.join(self._output_dir,file_name)
+        
+        tree.write(file_path,encoding="utf-8",xml_declaration=True)
+        return file_path
         
 
     
