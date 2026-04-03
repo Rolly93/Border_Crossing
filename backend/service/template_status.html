@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        /* Encabezado */
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* Tabla de Estatus */
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .status-table th, .status-table td {
+            padding: 12px;
+            border: 1px solid #ecf0f1;
+            text-align: left;
+        }
+
+
+
+.status-table tr:nth-child(odd) td.label {
+    background-color: #afd8eb; /* Tu azul claro */
+    font-weight: bold;
+    width: 40%;
+    color: #2f502c;
+}
+
+.status-table tr:nth-child(even) td.label {
+    background-color: #d1ecf1; /* Un azul un poco más oscuro o gris */
+    font-weight: bold;
+    width: 40%;
+    color: #2f502c;
+}
+.status-table tr:nth-child(even) td.value {
+    background-color: #f9f9f9;
+}
+
+#inspection{
+            background-color: rgb(255, 135, 135);
+            color: #000000;
+        }
+
+.value {
+    background-color: #ffffff;
+}
+
+.row-alt {
+    background-color: #fcfcfc;
+}
+
+.footer {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #95a5a6;
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Border Crossing Notice</h2>
+        
+        <table class="status-table">
+            <tr>
+                <td class="label">Track Number:</td>
+                <td class="value">{{ track_num }}</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="label">Shipment Num:</td>
+                <td class="value">{{ shipment_num }}</td>
+            </tr>
+            <tr>
+                <td class="label">Trailer/Placa:</td>
+                <td class="value">{{ trailer }}</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="label">Pick Up:</td>
+                <td class="value">{{ pick_time }}</td>
+            </tr>
+            <tr>
+                <td class="label">Departure:</td>
+                <td class="value">{{ departure_time }}</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="label" id="inspection">Mex Inspection:</td>
+                <td class="value">{{ mex_inspection | default('N/A') }}</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="label">Mex Clearence</td>
+                <td class="value">{{mex_clear| default('')}}</td>
+            </tr>
+            <tr>
+                <td class="label" id="inspection">USA Inspection:</td>
+                <td class="value">{{ usa_inspection | default('N/A') }}</td>
+            </tr>
+            
+            <tr class="row-alt">
+                <td class="label">USA Clearence</td>
+                <td class="value">{{usa_clear| default('')}}</td>
+            </tr>
+            <tr class="row-alt">
+                <td class="label">Delivery:</td>
+                <td class="value">{{ delivery_time | default('Pending') }}</td>
+            </tr>
+            <tr class="row-alt">
+            <td class="label">Recieve:</td>
+                <td class="value">{{ recive | default('Pending') }}</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            Este es un documento generado automáticamente por el Sistema de Logística.<br>
+            © 2026  - Nuevo Laredo.
+        </div>
+    </div>
+</body>
+</html>
